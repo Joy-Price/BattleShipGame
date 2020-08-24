@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -27,12 +28,10 @@ namespace BattleShipGame
         {
             InitializeComponent();
           
-            //DisplayPlayerOneBoard();
+          
             DisplayPlayerTwoBoard();
 
-            //5,2,4
-            //2,4
-            //4
+            
             int CarrierLength = 5;
             int BattleshipLength = 4;
             int DestroyerLength = 3;
@@ -46,7 +45,7 @@ namespace BattleShipGame
             test.PlaceShip(BattleshipLength);
             test.PlaceShip(CarrierLength);
             test.PlaceShip(DestroyerLength);
-             test.PlaceShip(SubmarineLength);
+            test.PlaceShip(SubmarineLength);
             //test.PlaceShip(PatrolLength);
             DisplayPlayerOneBoard(test.PlayerOne);
         }
