@@ -71,11 +71,11 @@ namespace BattleShipGame
             Random random = new Random();
             int x = random.Next(9);
             int y = random.Next((9-size));
-            
-            //if (IsOkPlacement(size, x, y, "horizontal"))
-            
-                    for (int i = 0; i < size; i++)
-                   { PlayerOne[x, y + i] = 1; }   
+            if (CheckForShip(x, y, size, "vertical"))
+            {
+                for (int i = 0; i < size; i++)
+                { PlayerOne[x, y + i] = 1; }
+            }
             
 
 
@@ -86,44 +86,46 @@ namespace BattleShipGame
             Random random = new Random();
             int x = random.Next((9-size));
             int y = random.Next(9);
-            
-            //if (IsOkPlacement(size, x, y, "vertical"))
-            
+            if (CheckForShip(x, y, size, "vertical"))
+            {
                 for (int i = 0; i < size; i++)
                 { PlayerOne[x + i, y] = 1; }
+            }
+                
             
             
         }
 
-        //bool IsOkPlacement(int size, int x, int y, string direction)
-        //{
 
-        //    if (direction == "horizontal")
-        //    {
+        public bool CheckForShip(int x, int y, int size, string direction)
+        {
 
-        //        for (int i = 0; i < size; i++)
-        //        {
-        //            if (PlayerOne[x, y + i] != 0)
-        //            {
-        //                return false;
-        //            }
-        //        }
-        //    }
+            if(direction == "vertical")
+            {
+                for (int i = 0; i < size+1; i++)
+                {
+                    if (PlayerOne[x + 1, y] != 0)
+                    {
+                        return false;
+                    }
+                }
+            }
 
-        //    else if (direction == "vertical")
-        //    {
+            else if (direction == "horizontal")
+            {
+                for (int i = 0; i < size+1; i++)
+                {
+                    if (PlayerOne[x, y + 1] != 0)
+                    {
+                        return false;
+                    }
+                }
+            }
 
-        //        for (int i = 0; i < size; i++)
-        //        {
-        //            if (PlayerOne[x + i, y] != 0)
-        //            {
-        //                return false;
-        //            }
-        //        }
-        //    }
+            return true;
 
-        //    return true;
-        //}
+        }
+        
 
     }
 }

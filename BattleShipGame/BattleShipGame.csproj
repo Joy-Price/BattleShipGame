@@ -73,7 +73,6 @@
     <Compile Include="BoardPeice.xaml.cs">
       <DependentUpon>BoardPeice.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Gameboard.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
