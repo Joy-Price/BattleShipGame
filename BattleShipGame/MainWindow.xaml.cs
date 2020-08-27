@@ -30,23 +30,9 @@ namespace BattleShipGame
           
           
             DisplayPlayerTwoBoard();
-
-            
-            int CarrierLength = 5;
-            int BattleshipLength = 4;
-            int DestroyerLength = 3;
-            int SubmarineLength = 2; //3
-            //int PatrolLength = ; //2
-
-
-
             
             Battleship test = new Battleship();
-            test.PlaceShip(BattleshipLength);
-            test.PlaceShip(CarrierLength);
-            test.PlaceShip(DestroyerLength);
-            test.PlaceShip(SubmarineLength);
-            //test.PlaceShip(PatrolLength);
+            
             DisplayPlayerOneBoard(test.PlayerOne);
         }
 

@@ -17,11 +17,32 @@ namespace BattleShipGame
 
     }
 
+    public enum Direction
+    {
+        PosX = 0,  //Col
+        PosY = 1,  //Row
+        NegX = 2,
+        NegY = 3
+    }
+    public class Coordinate
+    {
+        public int Row { get; set; }
+        public int Col { get; set; }
+
+        public Coordinate(int row, int column)
+        {
+            this.Row = row;
+            this.Col = column;
+            
+        }
+    }
+
     class Battleship
     {
         // REMEMBER INDEX IS FROM 0 -> 9   NOT 10
         public int[,] PlayerOne { get; set; }
         int[,] PlayerTwo { get; set; }
+        public Direction Direction { get; set; }
 
 
         public Battleship()
@@ -48,83 +69,43 @@ namespace BattleShipGame
                                 { 0,0,0,0,0,0,0,0,0,0},
                                 { 0,0,0,0,0,0,0,0,0,0},
                                 { 0,0,0,0,0,0,0,0,0,0}   };
-
+            Direction Direction = this.Direction;
         }
-
 
         
 
-        public void PlaceShip(int size)
+
+
+        public void PlaceShip(Coordinate startCoord, int length)
         {
-            Random r = new Random();
-            if (r.Next() % 2 == 0)
+            
+            Coordinate start = startCoord;
+            int x = start.Col;
+            int y = start.Row;
+
+            //which direction is possible
+            WhichDirection(start, length);
+            //choose random direction
+
+        }
+
+        public void WhichDirection(Coordinate startCoord, int length)
+        {
+            for (int i = 0; i < length + 1; i++)
             {
-                GenerateHorizontalShip(size);
+                if (PlayerOne[startCoord.Row, startCoord.Col + i] == 0)
+                { Direction = Direction.PosX; }
+                else if (PlayerOne[startCoord.Row + i, startCoord.Col] == 0)
+                { Direction = Direction.NegY; }
+                else if (PlayerOne[startCoord.Row - i, startCoord.Col] == 0)
+                { Direction = Direction.PosY; }
+                else if (PlayerOne[startCoord.Row, startCoord.Col-i] == 0)
+                { Direction = Direction.NegX; }
             }
-            else
-            { GenerateVerticalShip(size); }
         }
+        
 
-        public void GenerateHorizontalShip(int size)
-        {
-
-            Random random = new Random();
-            int x = random.Next(9);
-            int y = random.Next((9-size));
-            
-            //if (IsOkPlacement(size, x, y, "horizontal"))
-            
-                    for (int i = 0; i < size; i++)
-                   { PlayerOne[x, y + i] = 1; }   
-            
-
-
-        }
-
-        public void GenerateVerticalShip(int size)
-        {
-            Random random = new Random();
-            int x = random.Next((9-size));
-            int y = random.Next(9);
-            
-            //if (IsOkPlacement(size, x, y, "vertical"))
-            
-                for (int i = 0; i < size; i++)
-                { PlayerOne[x + i, y] = 1; }
-            
-            
-        }
-
-        //bool IsOkPlacement(int size, int x, int y, string direction)
-        //{
-
-        //    if (direction == "horizontal")
-        //    {
-
-        //        for (int i = 0; i < size; i++)
-        //        {
-        //            if (PlayerOne[x, y + i] != 0)
-        //            {
-        //                return false;
-        //            }
-        //        }
-        //    }
-
-        //    else if (direction == "vertical")
-        //    {
-
-        //        for (int i = 0; i < size; i++)
-        //        {
-        //            if (PlayerOne[x + i, y] != 0)
-        //            {
-        //                return false;
-        //            }
-        //        }
-        //    }
-
-        //    return true;
-        //}
-
+       
     }
 }
     
