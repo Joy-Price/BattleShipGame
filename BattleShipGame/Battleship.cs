@@ -75,20 +75,11 @@ namespace BattleShipGame
 
         public void PlaceShip(Coordinate startCoord, int length)
         {
-            
-           
+
+
 
             //which direction is possible
             WhichDirection(startCoord, length);
-            //choose random direction
-            //Random r = new Random();
-            //make list of true bools to choose from
-            //List<bool> Directions = new List<bool>() {};
-            //int NumTrue = Directions.Count(v => v == true) ;
-            //MakeTrueList(Directions);
-            
-
-            //int number = r.Next(NumTrue);
 
             //how to make random direction generation?
 
@@ -99,26 +90,10 @@ namespace BattleShipGame
             if (Up)
                 { PlaceUp(startCoord, length); }
             if (Down)
-                { PlaceDown(startCoord, length); }
+            { PlaceDown(startCoord, length); }
+            else { Console.WriteLine("Placement not possible with coordinates. Try again"); }
 
            
-            //if (number == 0)
-            //{ if (Up == true) { PlaceUp(startCoord, length); } }
-            //else if (number == 1)
-            //{ if (Down == true) { PlaceDown(startCoord, length); } }
-            //else if (number == 2)
-            //{ if (Right == true) { PlaceRight(startCoord, length); } }
-            //else if (number == 3)
-            //{ if (Left == true) { PlaceLeft(startCoord, length); } }
-
-        }
-
-        public void MakeTrueList(List<bool> BoolList)
-        {
-            foreach (bool direction in BoolList)
-                { if (direction == false)
-                { BoolList.Remove(direction); }
-                 }
         }
 
         public void WhichDirection(Coordinate startCoord, int length)

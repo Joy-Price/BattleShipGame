@@ -35,6 +35,7 @@ namespace BattleShipGame
 
             test.PlaceShip(new Coordinate(1,2), 4);
             test.PlaceShip(new Coordinate(7,4),3);
+            test.PlaceShip(new Coordinate(5, 3), 5);
             
             DisplayPlayerOneBoard(test.PlayerOne);
         }
