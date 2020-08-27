@@ -17,13 +17,7 @@ namespace BattleShipGame
 
     }
 
-    public enum Direction
-    {
-        PosX = 0,  //Col
-        PosY = 1,  //Row
-        NegX = 2,
-        NegY = 3
-    }
+    
     public class Coordinate
     {
         public int Row { get; set; }
@@ -42,7 +36,10 @@ namespace BattleShipGame
         // REMEMBER INDEX IS FROM 0 -> 9   NOT 10
         public int[,] PlayerOne { get; set; }
         int[,] PlayerTwo { get; set; }
-        public Direction Direction { get; set; }
+        bool Up;
+        bool Down;
+        bool Right;
+        bool Left;
 
 
         public Battleship()
@@ -69,7 +66,7 @@ namespace BattleShipGame
                                 { 0,0,0,0,0,0,0,0,0,0},
                                 { 0,0,0,0,0,0,0,0,0,0},
                                 { 0,0,0,0,0,0,0,0,0,0}   };
-            Direction Direction = this.Direction;
+            
         }
 
         
@@ -79,14 +76,49 @@ namespace BattleShipGame
         public void PlaceShip(Coordinate startCoord, int length)
         {
             
-            Coordinate start = startCoord;
-            int x = start.Col;
-            int y = start.Row;
+           
 
             //which direction is possible
-            WhichDirection(start, length);
+            WhichDirection(startCoord, length);
             //choose random direction
+            //Random r = new Random();
+            //make list of true bools to choose from
+            //List<bool> Directions = new List<bool>() {};
+            //int NumTrue = Directions.Count(v => v == true) ;
+            //MakeTrueList(Directions);
+            
 
+            //int number = r.Next(NumTrue);
+
+            //how to make random direction generation?
+
+            if (Left)
+                { PlaceLeft(startCoord,length); }
+            if (Right)
+                { PlaceRight(startCoord, length); }
+            if (Up)
+                { PlaceUp(startCoord, length); }
+            if (Down)
+                { PlaceDown(startCoord, length); }
+
+           
+            //if (number == 0)
+            //{ if (Up == true) { PlaceUp(startCoord, length); } }
+            //else if (number == 1)
+            //{ if (Down == true) { PlaceDown(startCoord, length); } }
+            //else if (number == 2)
+            //{ if (Right == true) { PlaceRight(startCoord, length); } }
+            //else if (number == 3)
+            //{ if (Left == true) { PlaceLeft(startCoord, length); } }
+
+        }
+
+        public void MakeTrueList(List<bool> BoolList)
+        {
+            foreach (bool direction in BoolList)
+                { if (direction == false)
+                { BoolList.Remove(direction); }
+                 }
         }
 
         public void WhichDirection(Coordinate startCoord, int length)
@@ -94,18 +126,48 @@ namespace BattleShipGame
             for (int i = 0; i < length + 1; i++)
             {
                 if (PlayerOne[startCoord.Row, startCoord.Col + i] == 0)
-                { Direction = Direction.PosX; }
+                { Right = true; }
                 else if (PlayerOne[startCoord.Row + i, startCoord.Col] == 0)
-                { Direction = Direction.NegY; }
+                { Down = true; }
                 else if (PlayerOne[startCoord.Row - i, startCoord.Col] == 0)
-                { Direction = Direction.PosY; }
+                { Up = true; }
                 else if (PlayerOne[startCoord.Row, startCoord.Col-i] == 0)
-                { Direction = Direction.NegX; }
+                { Left = true; }
             }
         }
+
         
 
-       
+        public void PlaceUp(Coordinate start, int length)
+        {
+            int x = start.Col;
+            int y = start.Row;
+            for (int i = 0; i < length; i++)
+            { PlayerOne[x - i, y] = 1; }
+        }
+        public void PlaceDown(Coordinate start, int length)
+        {
+            int x = start.Col;
+            int y = start.Row;
+            for (int i = 0; i < length; i++)
+            { PlayerOne[x + i, y] = 1; }
+        }
+        public void PlaceRight(Coordinate start, int length)
+        {
+            int x = start.Col;
+            int y = start.Row;
+            for (int i = 0; i < length; i++)
+            { PlayerOne[x, y + i] = 1; }
+        }
+        public void PlaceLeft(Coordinate start, int length)
+        {
+            int x = start.Col;
+            int y = start.Row;
+            for (int i = 0; i < length; i++)
+            { PlayerOne[x, y-i] = 1; }
+        }
+
+
     }
 }
     

@@ -32,6 +32,9 @@ namespace BattleShipGame
             DisplayPlayerTwoBoard();
             
             Battleship test = new Battleship();
+
+            test.PlaceShip(new Coordinate(1,2), 4);
+            test.PlaceShip(new Coordinate(7,4),3);
             
             DisplayPlayerOneBoard(test.PlayerOne);
         }
