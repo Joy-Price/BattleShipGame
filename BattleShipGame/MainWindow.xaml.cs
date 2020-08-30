@@ -33,16 +33,16 @@ namespace BattleShipGame
             
             Battleship test = new Battleship();
 
-            //test.PlaceShip(new Coordinate(1,1), 4);
-            //test.PlaceShip(new Coordinate(2,3),3);
-            //test.PlaceShip(new Coordinate(3,5), 5);
-            //test.PlaceShip(new Coordinate(4,7), 3);
-            test.PlaceShip(new Coordinate(7, 9), 3); // y = 9 is a bug. Fix this
+            
+            test.PlaceShip(new Coordinate(2,3),3); //
+            test.PlaceShip(new Coordinate(0,0), 5); //
+            test.PlaceShip(new Coordinate(5,5), 3); //
+            test.PlaceShip(new Coordinate(7, 1), 3); // 
 
             DisplayPlayerOneBoard(test.PlayerOne);
+
         }
 
-        //Create dynamic start game btn. Will disappear after game has started
 
         //public event EventHandler<EventArgs> StateChanged;
 

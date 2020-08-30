@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:BattleShipGame"
+        xmlns:local="clr-namespace:BattleShipGame" 
         mc:Ignorable="d"
         Title="BSWindow" Height="450" Width="800">
     <Grid>
@@ -23,15 +23,17 @@
             </WrapPanel>
             <WrapPanel x:Name="wrapPanel2" Width="200" Height="200" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center">
             </WrapPanel>
-            <StackPanel Grid.Column="1">
+            <Grid Grid.Column="1">
+                <WrapPanel>
+    
+                    <local:DragCircle Margin="2" />
+                    <local:DragCircle Margin="2" />
+                    
+                </WrapPanel>
+            <Grid>
 
-                <StackPanel x:Name="BtnPanel" VerticalAlignment="Center" HorizontalAlignment="Center" ></StackPanel>
-                    <TextBlock Width="100" Height="50"  Background="LightBlue"></TextBlock>
-                <TextBox Width="100" Height="50" Background="Azure"></TextBox>
-            </StackPanel>
 
-
-        </Grid>
+            </Grid>
     </Grid>
 </Window>
 

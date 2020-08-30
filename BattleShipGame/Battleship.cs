@@ -36,10 +36,6 @@ namespace BattleShipGame
         // REMEMBER INDEX IS FROM 0 -> 9   NOT 10
         public int[,] PlayerOne { get; set; }
         int[,] PlayerTwo { get; set; }
-        bool Up;
-        bool Down;
-        bool Right;
-        bool Left;
 
 
         public Battleship()
@@ -69,86 +65,82 @@ namespace BattleShipGame
             
         }
 
-        
 
-
-
-        public void PlaceShip(Coordinate startCoord, int length)
+        public void PlaceShip(Coordinate start, int size)
         {
-
-
-
-            //which direction is possible
-            WhichDirection(startCoord, length);
-
-            //how to make random direction generation?
-
-            if (Down)
-            { PlaceDown(startCoord, length); }
-            else if (Left)
-                { PlaceLeft(startCoord,length); }
-            else if (Right)
-                { PlaceRight(startCoord, length); }
-            else if (Up)
-                { PlaceUp(startCoord, length); }
-            
-            else { Console.WriteLine("Placement not possible with coordinates. Try again"); }
-
-           
-        }
-
-        public void WhichDirection(Coordinate startCoord, int length)
-        {
-            int ship = length + 1;
-            if (startCoord.Row + ship > 9 || startCoord.Row - ship < 0 || startCoord.Col + ship > 9 || startCoord.Col - ship < 0)
-            { Console.WriteLine(startCoord + "is not a valid Coordinate to place. Choose another Coordinate"); }
-            for (int i = 0; i < length + 1; i++)
-
+          
+            Random r = new Random();
+            if (r.Next() % 2 == 0)
             {
-                //BUG: while iterating, this will skip over a direction that is already true when it needs to be set to false 
-                if ( ((startCoord.Col + i) < 10) && PlayerOne[startCoord.Row, startCoord.Col + i] == 0)
-                { Right = true; }
-                if (((startCoord.Row + i) < 10) && PlayerOne[startCoord.Row + i, startCoord.Col] == 0)
-                { Down = true; }
-                if (((startCoord.Row - i) >= 0) && PlayerOne[startCoord.Row - i, startCoord.Col] == 0)
-                { Up = true; }
-                if (((startCoord.Col - i) >= 0) && PlayerOne[startCoord.Row, startCoord.Col-i] == 0)
-                { Left = true; }
+                GenerateHorizontalShip(size, start);
             }
+            else
+            { GenerateVerticalShip(size, start); }
         }
 
-        
+        public void GenerateHorizontalShip(int size, Coordinate Coord)
+        {
+            //check if coord is out of bounds
+            int x = Coord.Col;
+            int y = Coord.Row;
+            if (x + size + 1 > 9) { MessageBox.Show("Please select another starting Coordinate other than:  " + y.ToString() + "," + x.ToString()); } //Edit message for game. Is also Duplicate code
+           
+            else if (CheckForShip(x, y, size, "vertical"))
+            {
+                for (int i = 0; i < size; i++)
+                { PlayerOne[x, y + i] = 1; }
+            }
 
-        public void PlaceUp(Coordinate start, int length)
-        {
-            int x = start.Col;
-            int y = start.Row;
-            for (int i = 0; i < length; i++)
-            { PlayerOne[x - i, y] = 1; }
-        }
-        public void PlaceDown(Coordinate start, int length)
-        {
-            int x = start.Col;
-            int y = start.Row;
-            
-            for (int i = 0; i < length; i++)
-            { PlayerOne[x + i, y] = 1; }
-        }
-        public void PlaceRight(Coordinate start, int length)
-        {
-            int x = start.Col;
-            int y = start.Row;
-            for (int i = 0; i < length; i++)
-            { PlayerOne[x, y + i] = 1; }
-        }
-        public void PlaceLeft(Coordinate start, int length)
-        {
-            int x = start.Col;
-            int y = start.Row;
-            for (int i = 0; i < length; i++)
-            { PlayerOne[x, y-i] = 1; }
+
+
         }
 
+        public void GenerateVerticalShip(int size, Coordinate Coord)
+        {
+            //check if coord is out of bounds
+            int x = Coord.Col;
+            int y = Coord.Row;
+            if (y + size + 1 > 9) { MessageBox.Show("Please select another starting Coordinate other than:  " + y.ToString() + "," + x.ToString()); } //Edit message for game. Is also Duplicate code
+
+            if (CheckForShip(x, y, size, "vertical"))
+            {
+                for (int i = 0; i < size; i++)
+                { PlayerOne[x + i, y] = 1; }
+            }
+
+
+
+        }
+
+
+        public bool CheckForShip(int x, int y, int size, string direction)
+        {
+
+            if (direction == "vertical")
+            {
+                for (int i = 0; i < size + 1; i++)
+                {
+                    if (PlayerOne[x + 1, y] != 0)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            else if (direction == "horizontal")
+            {
+                for (int i = 0; i < size + 1; i++)
+                {
+                    if (PlayerOne[x, y + 1] != 0)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+
+        }
 
     }
 }
