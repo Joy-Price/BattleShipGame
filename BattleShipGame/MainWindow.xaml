@@ -23,14 +23,19 @@
             </WrapPanel>
             <WrapPanel x:Name="wrapPanel2" Width="200" Height="200" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center">
             </WrapPanel>
-            <Grid Grid.Column="1">
-                <WrapPanel>
-    
-                    <local:DragCircle Margin="2" />
-                    <local:DragCircle Margin="2" />
-                    
+            <Grid Grid.Column="1" x:Name="AttackPanel">
+                <StackPanel>
+                    <WrapPanel  Opacity="100">
+                    <TextBox x:Name="AttackRow" Width="100  " Text="Attack Row" />
+                    <ComboBox x:Name="CBrow" Height="25" Width="70" ItemsSource="{Binding numbers}" IsEditable="True" DropDownClosed="CBRowSelection"></ComboBox>
+                    <TextBox x:Name="AttackColumn" Width="100" Text="Attack Column"/>
+                    <ComboBox x:Name="CBcolumn" Height="25" Width="70" ItemsSource="{Binding numbers}" IsEditable="True" DropDownClosed="CBColumnSelection"></ComboBox>
                 </WrapPanel>
-            <Grid>
+                <WrapPanel HorizontalAlignment="Center">
+                    <Button x:Name="TryAttack" Content="Try Attack" Margin="10" ></Button>
+                </WrapPanel>
+                    </StackPanel>
+            </Grid>
 
 
             </Grid>

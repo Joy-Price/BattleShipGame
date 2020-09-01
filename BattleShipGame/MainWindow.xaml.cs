@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,33 +19,88 @@ using System.Windows.Shapes;
 namespace BattleShipGame
 {
     /// <summary>
-    /// Questions:
-    ///     []
+    /// Game logic is bound to this file until it is more clear how to access wpf elements outside of this class.
+    /// ^after that - Can implement an interface for game flow.
+    ///     public event EventHandler<EventArgs> StateChanged;
     /// </summary>
     public partial class MainWindow : Window
     {
 
+        //ComboBox Options for Attack Coordinate selection
+        public int[] Numbers { get; set; }
+        public char[] Letters { get; set; }
+        public static int TotalShipParts = 12; //INPUT TOTAL LENGTH OF ALL SHIPS
+        Battleship Game = new Battleship((TotalShipParts));
+        Coordinate Attack = new Coordinate(0,0);
+
+
         public MainWindow()
         {
             InitializeComponent();
-          
-          
-            DisplayPlayerTwoBoard();
-            
-            Battleship test = new Battleship();
 
-            
-            test.PlaceShip(new Coordinate(2,3),3); //
-            test.PlaceShip(new Coordinate(0,0), 5); //
-            test.PlaceShip(new Coordinate(5,5), 3); //
-            test.PlaceShip(new Coordinate(7, 1), 3); // 
 
-            DisplayPlayerOneBoard(test.PlayerOne);
+            //Implement combobox selection to set Attack x and y values
+            //Implement Try attack button
+            Numbers = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            Letters = new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J' };
+            DataContext = this;
+            AttackPanel.Visibility = Visibility.Hidden;
+
+
+
+
+            //place fleet
+            //Implement PlaceFleet to take a list of Coordinates
+
+
+            PlaceFleet(new Coordinate(2, 3),3,true);
+            PlaceFleet(new Coordinate(0, 0), 3, true);
+            PlaceFleet(new Coordinate(5, 5), 3, true);
+            PlaceFleet(new Coordinate(4, 1), 3, true);
+
+            PlaceFleet(new Coordinate(2, 3), 3, false);
+            PlaceFleet(new Coordinate(0, 0), 3, false);
+            PlaceFleet(new Coordinate(5, 5), 3, false);
+            PlaceFleet(new Coordinate(4, 1), 3, false);
+
+            //Add button to set this
+            Game.Battling = true;
+            
+
+            //MainGame Flow
+            while (Game.Battling)
+            {
+                AttackPanel.Visibility = Visibility.Visible;
+                //PlayerOneAttack
+                //Decision
+                //ChangeTurn
+                //PlayerTwo Attack
+                //Decision
+                Game.IsPlayerOne = true;
+                //Listen for AttackCoords
+                Game.TakeAttack(Attack,Game.IsPlayerOne);
+                Game.CheckWinner(Game.IsPlayerOne);
+                DisplayPlayerOneBoard(Game.PlayerOne); //if hit, change to 3 implement another color change for this method
+                Game.IsPlayerOne = false;
+                //Listen for AttackCoords
+                Game.TakeAttack(Attack, Game.IsPlayerOne);
+                Game.CheckWinner(Game.IsPlayerOne);
+                DisplayPlayerTwoBoard(Game.PlayerTwo);
+            }
+                
+ 
+           
+            
 
         }
 
 
-        //public event EventHandler<EventArgs> StateChanged;
+
+        void PlaceFleet(Coordinate ship, int length, bool IsPlayerOne)
+        {
+            Game.PlaceShip(ship, length, IsPlayerOne);
+
+        }
 
         void DisplayPlayerOneBoard(int[,] boardArray)
         {
@@ -76,19 +132,10 @@ namespace BattleShipGame
             }
 
         }
-        void DisplayPlayerTwoBoard()
+
+        void DisplayPlayerTwoBoard(int[,] boardArray)
         {
-            int[,] boardArray = new int[,] { { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                                        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                                                                        };
+            
             for (int i = 0; i < 10; i++)
             {
                 for (int j = 0; j < 10; j++)
@@ -108,7 +155,7 @@ namespace BattleShipGame
                         Ellipse shape = new Ellipse();
                         shape.Width = 20;
                         shape.Height = 20;
-                        shape.Fill = Brushes.Red;
+                        shape.Fill = Brushes.CornflowerBlue; //Actual ship coordinates need to be hidden. This is still here for own reference.
                         wrapPanel2.Children.Add(shape);
                     }
                 }
@@ -116,6 +163,16 @@ namespace BattleShipGame
 
         }
 
-        
+        private void CBRowSelection(object sender, EventArgs e)
+        {
+            Attack.Row = (int)CBrow.SelectedItem;
+        }
+
+        private void CBColumnSelection(object sender, EventArgs e)
+        {
+            //implement column selection with char rathre than int for full game experience.
+            Attack.Col = (int)CBcolumn.SelectedItem;
+
+        }
     }
 }
